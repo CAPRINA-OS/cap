@@ -24,3 +24,9 @@ export const getListOrdersQueryKey = () => ["orders"];
 export const getGetOrdersSummaryQueryKey = () => ["summary"];
 export const getGetRecentOrdersQueryKey = () => ["recent"];
 export const setAuthTokenGetter = () => {};
+export const useGetOrder = () => {
+  return {
+    data: null,
+    isLoading: false,
+  };
+};
