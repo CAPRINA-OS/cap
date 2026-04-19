@@ -24,67 +24,52 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const TOKEN_KEY = "caprina_token";
-const USER_KEY = "caprina_user";
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const savedToken = localStorage.getItem(TOKEN_KEY);
-    const savedUser = localStorage.getItem(USER_KEY);
-    if (savedToken && savedUser) {
-      try {
-        setToken(savedToken);
-        setUser(JSON.parse(savedUser));
-      } catch {
-        localStorage.removeItem(TOKEN_KEY);
-        localStorage.removeItem(USER_KEY);
-      }
-    }
+    // 🔥 دخول تلقائي كـ Admin
+    const fakeUser: AuthUser = {
+      id: 1,
+      username: "admin",
+      displayName: "Admin User",
+      role: "admin",
+      permissions: ["*"],
+      isActive: true,
+    };
+
+    setUser(fakeUser);
+    setToken("fake-token");
     setLoading(false);
   }, []);
 
   const login = (newToken: string, newUser: AuthUser) => {
     setToken(newToken);
     setUser(newUser);
-    localStorage.setItem(TOKEN_KEY, newToken);
-    localStorage.setItem(USER_KEY, JSON.stringify(newUser));
   };
 
   const logout = () => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
   };
 
   const can = (permission: string): boolean => {
     if (!user) return false;
     if (user.role === "admin") return true;
-    if (user.permissions && user.permissions.length > 0) {
-      return user.permissions.includes("*") || user.permissions.includes(permission);
-    }
-    const defaults: Record<string, string[]> = {
-      admin: ["*"],
-      employee: ["orders", "dashboard"],
-      warehouse: ["inventory", "movements", "dashboard"],
-    };
-    const allowed = defaults[user.role] || [];
-    return allowed.includes("*") || allowed.includes(permission);
+    return true;
   };
 
-  const canViewFinancials = can("view_financials");
+  const canViewFinancials = true;
 
   return (
     <AuthContext.Provider value={{
       user, token,
       login, logout,
-      isAdmin: user?.role === "admin",
-      isEmployee: user?.role === "employee",
-      isWarehouse: user?.role === "warehouse",
+      isAdmin: true,
+      isEmployee: false,
+      isWarehouse: false,
       can,
       canViewFinancials,
       loading,
