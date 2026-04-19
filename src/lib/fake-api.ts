@@ -27,7 +27,6 @@ export const useGetOrder = () => {
   };
 };
 
-// ✅ الحل الجديد للمشكلة الحالية
 export const useGetOrdersSummary = () => {
   return {
     data: {
@@ -46,9 +45,11 @@ export const useGetRecentOrders = () => {
   };
 };
 
-// query keys
+// ✅ query keys كاملة
 export const getListOrdersQueryKey = () => ["orders"];
 export const getGetOrdersSummaryQueryKey = () => ["summary"];
 export const getGetRecentOrdersQueryKey = () => ["recent"];
+export const getGetOrderQueryKey = () => ["order"];
 
+// auth
 export const setAuthTokenGetter = () => {};
