@@ -20,13 +20,35 @@ export const useCreateOrder = () => {
   };
 };
 
-export const getListOrdersQueryKey = () => ["orders"];
-export const getGetOrdersSummaryQueryKey = () => ["summary"];
-export const getGetRecentOrdersQueryKey = () => ["recent"];
-export const setAuthTokenGetter = () => {};
 export const useGetOrder = () => {
   return {
     data: null,
     isLoading: false,
   };
 };
+
+// ✅ الحل الجديد للمشكلة الحالية
+export const useGetOrdersSummary = () => {
+  return {
+    data: {
+      total: 0,
+      revenue: 0,
+      profit: 0,
+    },
+    isLoading: false,
+  };
+};
+
+export const useGetRecentOrders = () => {
+  return {
+    data: [],
+    isLoading: false,
+  };
+};
+
+// query keys
+export const getListOrdersQueryKey = () => ["orders"];
+export const getGetOrdersSummaryQueryKey = () => ["summary"];
+export const getGetRecentOrdersQueryKey = () => ["recent"];
+
+export const setAuthTokenGetter = () => {};
