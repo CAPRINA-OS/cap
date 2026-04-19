@@ -1,9 +1,6 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import { setAuthTokenGetter } from "@workspace/api-client-react";
-
-setAuthTokenGetter(() => localStorage.getItem("caprina_token"));
 
 // ─── Service Worker Registration ─────────────────────────────────────────────
 if ("serviceWorker" in navigator) {
@@ -14,7 +11,6 @@ if ("serviceWorker" in navigator) {
       .then((reg) => {
         console.info("[PWA] Service worker registered", reg.scope);
 
-        // Auto-update: when a new SW is waiting, activate it immediately
         reg.addEventListener("updatefound", () => {
           const worker = reg.installing;
           if (!worker) return;
